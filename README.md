@@ -1,4 +1,4 @@
-# gocha 避坑手册
+# gotcha 避坑手册
 ## golang
 ### unreleased resource with blank identifier 你忽略的变量可能会引起资源泄漏
 Sometimes you might ignore some of the return values from a function call, because you don't need them:
