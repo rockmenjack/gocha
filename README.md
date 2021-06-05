@@ -13,6 +13,20 @@ however if for example `val.Close()` must be called to release the underlying re
 
 these rules/knowledge may be out of date
 
+### be careful about {} block returning a value
+
+```rust
+let inner = &mut unsafe { (*self.inner).replace }
+```
+is effectively
+```rust
+let tmp = unsafe { (*self.inner).replace };
+let inner = &mut tmp //reference to stack data
+```
+In `unsafe` context, pointer deferencing will subvert borrow checker, so you might pass a value in stack to another function. then boom, your program panic!
+
+refer: https://www.reddit.com/r/rust/comments/nqjyb7/the_most_annoying_bug_ive_had_to_track_down/
+
 ### auto-referencing rules
 1. Is there an impl for T , if so use that impl, else go to step 2
 2. Is there an impl for &T , if so use that impl, else go to step 3,
